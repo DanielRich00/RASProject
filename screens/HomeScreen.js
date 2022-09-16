@@ -15,6 +15,13 @@ import { useRoute } from '@react-navigation/native';
 const HomeScreen = ({navigation}) => {
     const route = useRoute()
 
+    const[timer, setTimer] = useState(60)
+
+    useEffect(() => {
+        setTimeout(() => {
+          setTimer((timer) => timer - 1);
+        }, 1000);
+      });
   
 
 

@@ -1,12 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View, Pressable, ImageBackground, TouchableOpacity} from 'react-native';
 
+// HASH FOR EMAIL THEN GATHER DATA
+
+
 const MainScreen =({navigation})=>{
     function SignInNavigation(){
         navigation.navigate('SignIn')}
     function SignUpNavigation(){
         navigation.navigate('SignUp')
     }
+    function notePadNavigation(){
+        navigation.navigate('NotePad')}
+    
+      function MainScreenNavigation(){
+          navigation.navigate('MainScreen')}
+    
+      function HomeScreenNavigation(){
+        navigation.navigate('HomeScreen')
+    }   
 
     function ProfileNavigation(){
         navigation.navigate("ProfileScreen")

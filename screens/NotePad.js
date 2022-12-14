@@ -26,14 +26,89 @@ const NotePad = ({navigation}) => {
   const [StringInput, updateText] = useState(null);
 
 
+  //const onClick = () => {
+    //updateNotes( arr => [...arr, "\n - " + StringInput]);
+  //}
+
   const onClick = () => {
-    updateNotes( arr => [...arr, "\n - " + StringInput]);
+    Noteslist.appendNode(StringInput)
+    Noteslist.addValueToList(StringInput)
+    Noteslist.printListData()    
   }
 
-  useEffect(() => {
-    console.log("I am mounting!");
-    return () => console.log("I am UNMOUNTING!");
-  }, []);
+
+
+
+  
+  class LinkedList {
+    constructor() {
+    this.head = null;
+    this.tail = null;
+    }
+    
+    
+    // adds a new node to the end of the list
+    appendNode(value) {
+      const newNode = { value, next: null };
+      if (this.tail) {
+      this.tail.next = newNode;
+    }
+    this.tail = newNode;
+    if (!this.head) {
+      this.head = newNode;
+      
+    }
+    }
+
+    addValueToList(value){
+      const newNode = { value, next: null};
+      updateNotes( arr => [...arr, "\n -" + newNode.value])
+    }
+    
+    
+    // removes the node at the specified index
+    removeAt(index) {
+      if (!this.head || index < 0) {
+        return null;
+    }
+      let current = this.head;
+      let previous = null;
+      let i = 0;
+      if (index === 0) {
+       this.head = current.next;
+       return current.value;
+    }
+    
+    while (current.next && i < index) {
+      previous = current;
+      current = current.next;
+      i++;
+    }
+    
+    
+    if (previous) {
+      previous.next = current.next;
+    }
+    if (!previous.next) {
+      this.tail = previous; 
+    }
+    return current.value;
+    }
+    
+    // prints list 
+    printListData(){
+      let current = this.head;
+      
+      while (current) {
+        console.log(current.value)
+        current=current.next
+      }
+    }
+  }
+
+  const Noteslist = new LinkedList();
+
+    
 
   return(
     <ImageBackground
@@ -60,6 +135,7 @@ const NotePad = ({navigation}) => {
         </View>
         <View style={styles.sendSticker}>
           <Icon.Button color={'grey'} name="play" size="30%" backgroundColor={null} style={styles.NotePadSticker} onPress={onClick}></Icon.Button>
+        
         </View>
 
       
@@ -68,8 +144,7 @@ const NotePad = ({navigation}) => {
       <View style={styles.box}>
         <Text>{Notes.map( e =>
           <Text style={styles.arrayText}>{ e }</Text>
-        )}
-        </Text>
+        )}</Text>
       </View>
 
       <View style={styles.Line}></View>

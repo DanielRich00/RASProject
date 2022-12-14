@@ -9,19 +9,37 @@ import { getDatabase, ref, onValue} from "firebase/database";
 import { QuerySnapshot } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { async } from '@firebase/util';
+import { useRoute } from '@react-navigation/native';
+import { mergeSorter } from './mergeSort.js'
+import { hasher } from './hashingAlgorithm';
 
 
 
 const SignIn = ({navigation}) => {
 
-// API FOR TWITTER PULL
+  
+  const route = useRoute();
+
+ 
+  let x = (mergeSorter("hello"))
+  console.log(hasher(x))
+
+
+  
   const [email, SetEmail] = useState('');
   const [password, SetPassword] = useState('');
   const [EmailError, SetEmailError] = useState(false);
 
+
+  var acceptedEmail = ""
+  var acceptedPassword = ""
+
   function HomeScreenNavigation(){
-    console.log("hello")
-    navigation.navigate('HomeScreen')
+    global.userEmail=acceptedEmail
+    navigation.navigate('HomeScreen', {
+      email: acceptedEmail, 
+      password: acceptedPassword,
+    })
  }
  
 
@@ -37,8 +55,7 @@ const SignIn = ({navigation}) => {
   .then(response=>response.json())
   .then(data=>userData.push(data))
 
-  var acceptedEmail = "hello"
-  var acceptedPassword = null
+ 
  
 
 

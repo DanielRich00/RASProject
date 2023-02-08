@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, Text, View, Pressable, ImageBackground, TextInput} from 'react-native';
-import { openDatabase } from 'react-native-sqlite-storage';
 import { firebase, db } from "../firebase"
 import { getDatabase, ref, onValue} from "firebase/database";
 import { QuerySnapshot } from 'firebase/firestore';
@@ -15,24 +14,23 @@ import { hasher } from './hashingAlgorithm';
 
 
 
+
+
+
 const SignIn = ({navigation}) => {
 
-  
-  const route = useRoute();
-
- 
-  let x = (mergeSorter("hello"))
-  console.log(hasher(x))
-
-
-  
   const [email, SetEmail] = useState('');
   const [password, SetPassword] = useState('');
   const [EmailError, SetEmailError] = useState(false);
+  const [username, SetUsername] = useState('')
 
+
+  
+ 
 
   var acceptedEmail = ""
   var acceptedPassword = ""
+  
 
   function HomeScreenNavigation(){
     global.userEmail=acceptedEmail
@@ -49,28 +47,19 @@ const SignIn = ({navigation}) => {
   }
 
   const usersData = []
-  const userData = []
-
-  fetch("https://danielrich00.github.io/RASapi/pastpaper.json")
-  .then(response=>response.json())
-  .then(data=>userData.push(data))
-
- 
- 
-
-
 
 
   function checkEmail(){
-    let checkNumber = 0;
-    console.log(email)
     for(let j=0;j<usersData.length;j++){
-      console.log(usersData[0].email)
       if(email == usersData[j].email && password == usersData[j].password){
         acceptedEmail = usersData[j].email
         acceptedPassword = usersData[j].password
-        SetEmailError(EmailError => false)
-        HomeScreenNavigation()
+        if(username.length>4 && username.length<10){
+          SetEmailError(EmailError => false)
+          HomeScreenNavigation()
+        } else {
+          SetEmailError(EmailError => true)
+        }
       } else {
         SetEmailError(EmailError => true)
       }
@@ -78,19 +67,18 @@ const SignIn = ({navigation}) => {
       }
     }
   
+  
+  
 
   function pullData(){
     const Ref = firebase.firestore().collection('users')
     .onSnapshot(
       querySnapshot => {
-
-        // HERE ONWARDS HAS BEEN PULLED FROM YOUTUBE NOT MY ORIGINAL WORK
-        // HAD ERRORS WORKING WITH FIRESTORE https://www.youtube.com/watch?v=evS7V2M1xq4&ab_channel=BugNinza
-
         querySnapshot.forEach((doc) => {
-          const { email, password } = doc.data()
+          const { email, password, username } = doc.data()
           usersData.push({
             id: doc.id,
+            username,
             email,
             password
 
@@ -100,11 +88,23 @@ const SignIn = ({navigation}) => {
     )
     }
 
+    function sortAlphabets(str) {
+      return [...str].sort((a, b) => a.localeCompare(b)).join("");
+    }
+
 
 
     function checkUser(){
       pullData()
       checkEmail()
+
+      // remove hre  
+      let temp = (sortAlphabets(username))
+      console.log(temp)
+      let tempList = temp.split()
+      global.tempUsername = (hasher(tempList))
+
+
     }
   
 
@@ -121,6 +121,13 @@ const SignIn = ({navigation}) => {
     source={{uri: 'https://i.pinimg.com/originals/65/b6/be/65b6bed2caffc39538346d90f04d1270.jpg'}}>
     <Text style={styles.FirstText}>Welcome Back!</Text>
     <View style={styles.Line}></View>
+    <View
+    style={styles.TextInputBox3}>
+    <TextInput
+      placeholder='Enter Username'
+      onChangeText={(value)=>SetUsername(value)}
+      style={styles.TextInputFont}/>
+    </View>
     <View
       style={styles.TextInputBox1}>
       <TextInput
@@ -176,6 +183,15 @@ const styles = StyleSheet.create({
     TextInputBox1:{
       borderColor:'white',
       borderWidth:'5%',
+      marginTop:"5%",
+      width:'80%',
+      height:'5%',
+      alignSelf:'center'
+    },
+
+    TextInputBox3:{
+      borderColor:'white',
+      borderWidth:'5%',
       marginTop:"50%",
       width:'80%',
       height:'5%',
@@ -215,8 +231,6 @@ const styles = StyleSheet.create({
       backgroundColor:'white',
       borderRadius:100,
       marginTop:'5%'
-      
-
     },
     button2:{
         width:'60%',
@@ -227,8 +241,6 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         borderRadius:100,
         marginTop:'50%'
-      
-
     },
 
 

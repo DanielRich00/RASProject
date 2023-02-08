@@ -1,0 +1,43 @@
+import React from 'react';
+import { Text, View } from 'react-native';
+import { StyleSheet,  Pressable, ImageBackground, TextInput, Linking} from 'react-native';
+
+
+const DisplayResources = ({ resources, subject }) => {
+  return (
+    <View>
+      {subject && (
+        <View style={styles.Container}>
+          {resources[subject].dates.map((date, index) => (
+            <Text style={styles.DateText} key={date}>
+              {date}:
+              <Pressable onPress={()=>{Linking.openURL(resources[subject].websites[index])}}><Text style={styles.Link}>Paper Link</Text></Pressable>
+            </Text>
+          ))}
+        </View>
+      )}
+    </View>
+  );
+};
+
+
+
+const styles = StyleSheet.create({
+
+    DateText:{
+      color:'white',
+      marginTop:'20%',
+      fontSize:'30',
+      fontWeight:'bold'
+    },
+    Container:{
+      marginTop:'10%'
+
+    },
+    Link:{
+      fontSize:'28'
+    }
+    
+})
+
+export default DisplayResources

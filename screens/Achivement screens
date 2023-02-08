@@ -1,0 +1,198 @@
+
+import React, { useState } from 'react';
+import Circle from './circle';
+import { Box } from '../components/Box';
+import { firebase } from "../firebase"
+import { mergeSorter } from './mergeSort.js'
+import { hasher } from './hashingAlgorithm';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Icon from 'react-native-vector-icons/Feather';
+import { StyleSheet, Text, View, Pressable, ImageBackground, TextInput, Linking, Modal} from 'react-native';
+import { useEffect } from 'react';
+import 'firebase/firestore';
+
+const AchievementScreen = ({navigation}) => {
+
+    const[ach1, setAch1] = useState(false)
+    const[ach2, setAch2] = useState(false)
+    const[ach3, setAch3] = useState(false)
+    const[trackingNodes, setTrackingNodes] = useState([])
+
+    class Tree {
+        constructor(value) {
+          this.value = value;
+          this.children = [];
+          this.description = "";
+        }
+      }
+
+    // SETTING NODES
+    const LaunchApp = new Tree("LaunchApp");
+    const StartStudy = new Tree("StartStudy");
+    const OneNote = new Tree("OneNote");
+    // SETTING DESCRIPTIONS FOR NODES
+    LaunchApp.description = "launch app for the first time!";
+    StartStudy.description = "Start one study session";
+    OneNote.description = "Add one note";
+    // SETTING CHILDREN FOR NODES
+    LaunchApp.children.push(StartStudy.value)
+    LaunchApp.children.push(OneNote.value);
+
+    
+
+    function notePadNavigation(){
+        navigation.navigate('NotePad')}
+    function resourcesNavigation(){
+        navigation.navigate('Resources')
+    }
+    function achievmentNavigation(){
+        navigation.navigate('AchievementScreen')
+    }
+    function MainScreenNavigation(){
+          navigation.navigate('MainScreen')}
+    function HomeScreenNavigation(){
+        navigation.navigate('HomeScreen')
+    }
+    function ProfileScreenNavigation(){
+        navigation.navigate("ProfileScreen")
+    }
+
+    function checkTracking(){
+        LaunchApp.children.forEach(item => {
+            firebase.firestore().collection('usersInformation')
+              .doc(String(global.tempUsername))
+              .collection('achievements')
+              .doc(item)
+              .get()
+              .then(doc => {
+                if(doc.data().tracking){
+                    console.log(item)
+                };
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          });
+    }
+
+  
+
+    const achievement1 = firebase.firestore().collection('usersInformation').doc(String(global.tempUsername)).collection('achievements').doc('LaunchApp')
+    const achievement2 = firebase.firestore().collection('usersInformation').doc(String(global.tempUsername)).collection('achievements').doc('OneNote')
+    const achievement3 = firebase.firestore().collection('usersInformation').doc(String(global.tempUsername)).collection('achievements').doc('StartStudy')
+
+
+    achievement1.get().then(doc => {
+        if (doc.exists){
+            setAch1(doc.data().achieved)
+            
+        } else {
+            console.log('doc does not exists')
+            console.log(global.tempUsername)
+        }
+    })
+    achievement2.get().then(doc => {
+        if (doc.exists){
+            setAch2(doc.data().achieved)
+            
+        } else {
+            console.log('doc does not exists')
+            console.log(global.tempUsername)
+        }
+    })
+    achievement3.get().then(doc => {
+        if (doc.exists){
+            setAch3(doc.data().achieved)
+            
+        } else {
+            console.log('doc does not exists')
+            console.log(global.tempUsername)
+        }
+    })
+
+    
+
+
+  
+    
+
+    return(
+        <ImageBackground
+    blurRadius={100}
+    style={{flex:1, alignItems:"center"}}
+    source={{uri: 'https://i.pinimg.com/originals/65/b6/be/65b6bed2caffc39538346d90f04d1270.jpg'}}>
+    <View style={styles.headingContainer}>
+        <Text style={styles.FirstText}>Achievement Screen</Text>
+        <Icon.Button color={'white'} name="info" size="40%" backgroundColor={null}  onPress={checkTracking} style={styles.infoButton}></Icon.Button>
+    </View>
+        <View style={styles.achievmentContainer}>
+        <Circle color={ach1 ? 'green' : 'red'} text="LAUNCH APP" />
+        </View>
+        <View style={styles.secondLayer}>
+        <Circle color={ach2 ? 'green' : 'red'} text="ONE NOTE" />
+        <Circle color={ach3 ? 'green' : 'red'}  text="START STUDY" />
+        </View>
+        <View style={styles.Line}></View>
+
+        <View flexDirection='row' style={styles.container}>
+            <Icon.Button color={'white'} name="home" size="40%" backgroundColor={null}  onPress={HomeScreenNavigation} style={styles.NotePadSticker}></Icon.Button>
+            <Icon.Button color={'white'} name="file" size="40%" backgroundColor={null}  onPress={notePadNavigation} style={styles.NotePadSticker}></Icon.Button>
+            <Icon.Button color={'white'} name="zap" size="40%" backgroundColor={null}  onPress={notePadNavigation} style={styles.NotePadSticker}></Icon.Button>
+            <Icon.Button color={'white'} name="user" size="40%" backgroundColor={null}  onPress={ProfileScreenNavigation} style={styles.NotePadSticker}></Icon.Button>
+            <Icon.Button color={'white'} name="book-open" size="40%" backgroundColor={null}  onPress={notePadNavigation} style={styles.NotePadSticker}></Icon.Button>
+        </View>
+        </ImageBackground>
+    )}
+
+
+
+export default AchievementScreen
+
+const styles = StyleSheet.create({
+
+    FirstText:{
+      
+      textAlign:'left',
+      color:'white',
+      fontSize:"30%",
+      fontWeight:'bold',
+    },
+    achievmentContainer:{
+        paddingTop:'10%'
+    },
+    NotePadSticker:{
+        paddingLeft:'4%',
+        alignSelf:'center',
+        
+    },
+    headingContainer:{
+        flexDirection:'row',
+        marginTop: '10%',
+
+    },
+    container:{
+        alignItems:'center',
+        paddingLeft:"8%"
+    },
+    infoButton:{
+        paddingLeft:'5%',
+        alignSelf:'center',
+        marginTop: '-15%',
+
+    },
+    
+    Line:{
+        backgroundColor:'white',
+        alignSelf:'center',
+        width:'80%',
+        height:'0.5%',
+        marginTop:'115%'
+    },
+    secondLayer:{
+        flexDirection:'row',
+        
+    }
+
+    
+})

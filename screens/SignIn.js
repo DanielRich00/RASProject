@@ -127,21 +127,33 @@ const SignIn = ({navigation}) => {
     blurRadius={100}
 // gives it flex properties
     style={{flex:1}}
+//provides a soruce for the image background
     source={{uri: 'https://i.pinimg.com/originals/65/b6/be/65b6bed2caffc39538346d90f04d1270.jpg'}}>
+//makes a text with the style "firstText", and has the text "Welcome Back", this acts as a title Screen.
     <Text style={styles.FirstText}>Welcome Back!</Text>
+//This is a line, which seperates the title and the main content of the page
     <View style={styles.Line}></View>
     <View
+//This is a containter for one of the text inputs boxes
     style={styles.TextInputBox3}>
     <TextInput
+//placeholders are what the users see inside the box that they type in, gives guidance.
       placeholder='Enter Username'
+//on change text, means that when the text is change it will perform inside the brackets
+// meaning it will take the value of the entered box, and change the Username value to that value.
       onChangeText={(value)=>SetUsername(value)}
+// this is the style of the box itself.
       style={styles.TextInputFont}/>
     </View>
+// this is another one of the text input boxes
     <View
       style={styles.TextInputBox1}>
+// for the tuser to enter their email
       <TextInput
       placeholder='Enter Email'
       onChangeText={(value)=>SetEmail(value)}
+ //on change text, means that when the text is change it will perform inside the brackets
+// meaning it will take the value of the entered box, and change the email value to that value.
       style={styles.TextInputFont}/> 
       </View>
       <View
@@ -149,23 +161,31 @@ const SignIn = ({navigation}) => {
       <TextInput
       placeholder='Enter Password'
       onChangeText={(value)=>SetPassword(value)}
+//on change text, means that when the text is change it will perform inside the brackets
+// meaning it will take the value of the entered box, and change the password value to that value.
       style={styles.TextInputFont}/> 
       </View>
+// This is for the email error, if the email error is true it will perform the right of the Email Error.
+// With the style of ErrorText, it will display the text below.
       {EmailError && <Text style={styles.ErrorText}>INVALID EMAIL OR PASSWORD</Text>}
-
+//this is a button, that on press performs the function CheckUser
       <Pressable style={styles.button2}
       onPress={checkUser}
       >
+//The text on this is "buttonFont"
           <Text style={styles.buttonFont}>
+//This is the text itself
           Confirm
           </Text>
       </Pressable>
     
-    
-  
+//This is a button for the user to navigate back
       <Pressable style={styles.button}
+// on press it will navigate to the main screen, back to home.
       onPress={MainScreenNavigation}>
+//this is with the style buttonFont, again.
           <Text style={styles.buttonFont}>
+// has the text "back"
           Back
           </Text>
       </Pressable>

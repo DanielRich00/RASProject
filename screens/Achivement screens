@@ -12,26 +12,37 @@ import { StyleSheet, Text, View, Pressable, ImageBackground, TextInput, Linking,
 import { useEffect } from 'react';
 import 'firebase/firestore';
 
+//creating a const for the screen, which will be originally imported onto the screen stack.
 const AchievementScreen = ({navigation}) => {
 
+    //This a useState const, that is used to store the data of the achievmenet, this will hold values for the state of achieved, holding false if the use has already achieved it
+    or holding true if the use has achieved it. Oringally it will store it as false; however, will be later altered when the database is connected.
     const[ach1, setAch1] = useState(false)
+    //This is for the second achievement
     const[ach2, setAch2] = useState(false)
+    //This is for the third achievement
     const[ach3, setAch3] = useState(false)
+    //This is a const that is orginally set to an empty array, whic his used for the tracking of what nodes have been achieved, this is not yet changed, and is only changed
+     when the user clicks a button on screen.
     const[trackingNodes, setTrackingNodes] = useState([])
-
+ 
+    //This is the constructor for the tree, this is later used for tree traversal
     class Tree {
         constructor(value) {
+          //This is for the tree class, and whenever a tree is created then every object will have a value, children and description.
           this.value = value;
+          //This is an array assigned to the object, and will store the values of the children, so it can be retrieved by the user on the click of a button.
           this.children = [];
+          // This shows the description of the achievement of the object, and can be shown to the user if they do not know what the achievement entails.
           this.description = "";
         }
       }
 
-    // SETTING NODES
+    // Setting Nodes for each achievement
     const LaunchApp = new Tree("LaunchApp");
     const StartStudy = new Tree("StartStudy");
     const OneNote = new Tree("OneNote");
-    // SETTING DESCRIPTIONS FOR NODES
+    // Setting individual description for each achievement
     LaunchApp.description = "launch app for the first time!";
     StartStudy.description = "Start one study session";
     OneNote.description = "Add one note";

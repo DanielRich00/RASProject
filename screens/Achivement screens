@@ -84,11 +84,12 @@ const AchievementScreen = ({navigation}) => {
     // this is for each of the children of the root node, which is the launch app achievement
         LaunchApp.children.forEach(item => {
         // this accesses the collection of userinformation
+        // this also uses firebase commands / SQL like commands.
           USE userInformation SELECT * FROM achievments
           DECLARE achievments
           DECLARE @trackingValue INT;
           DECLARE curos_achievment CURSOR FOR
-          SELECT tacing
+          SELECT tacking
           FROM achievments
           OPEN cursor-achievments;
           FETCH NEXT FROM cursor_achievment INTO @trackingValue

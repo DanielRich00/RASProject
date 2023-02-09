@@ -201,14 +201,20 @@ export default SignIn;
 export 
 
 const styles = StyleSheet.create({
+// styling for firstText, this title 
     FirstText:{
+//changes the margin of the top
       marginTop: '20%',
+// aligns the text to centre
       textAlign:'center',
+// changes the color to white 
       color:'white',
+// changes the font size to 20
       fontSize:20,
+// changes the weight of the font to bold
       fontWeight:'bold',
     },
-    
+ //styling for the orginal text box
     TextInputBox1:{
       borderColor:'white',
       borderWidth:'5%',
@@ -217,7 +223,7 @@ const styles = StyleSheet.create({
       height:'5%',
       alignSelf:'center'
     },
-
+//styling for the different text box
     TextInputBox3:{
       borderColor:'white',
       borderWidth:'5%',
@@ -226,17 +232,24 @@ const styles = StyleSheet.create({
       height:'5%',
       alignSelf:'center'
     },
-
+//styling for the different text box
     
     TextInputBox2:{
+      
+ // changes the border color to white
         borderColor:'white',
+// changes the widht 
         borderWidth:'5%',
+// adds a margin
         marginTop:"5%",
+// makes it width
         width:'80%',
+// makes the text box shorter
         height:'5%',
         alignSelf:'center'
     },
-
+  
+//styling for the seperating line
     Line:{
       backgroundColor:'white',
       alignSelf:'center',
@@ -245,26 +258,36 @@ const styles = StyleSheet.create({
       marginTop:'2%'
 
     },
-
+// styling for the text
     text:{
       marginTop:'20%'
 
     },
-
+//styling for the input button
     button:{
+ // makes the widht to 60% of the screen
       width:'60%',
+ // centres itself ot the centre of the screen
       alignSelf:'center',
+ // the items in the box button are not to the centre
       alignItems:'center',
       paddingVertical:20,
       height:'7%',
+ //changes the background to white
       backgroundColor:'white',
       borderRadius:100,
       marginTop:'5%'
     },
+  
+//styling for the back button
     button2:{
+// changes the width of the button2
         width:'60%',
+// aligns the item to the center
         alignSelf:'center',
+// aligns the items in the container
         alignItems:'center',
+ // this adds padding to the top
         paddingVertical:20,
         height:'7%',
         backgroundColor:'white',
@@ -272,17 +295,25 @@ const styles = StyleSheet.create({
         marginTop:'50%'
     },
 
-
+//styling for the button font
     buttonFont:{
+//changes the font size
       fontSize:'20',
+      
+//changes the font weight
       fontWeight:'bold',
     },
-
+//styling for the error text
     ErrorText:{
+ //changes the font size
       fontSize:15,
+ // moves it down, as the bottom margin has a negative value
       marginBottom:'-3.45%',
+ // changes the weight of the font
       fontWeight:'bold',
+// changes the colour of the font to red
       color:'red',
+//adds a margin to the top
       marginTop:'1%',
       alignSelf:"center"
   }

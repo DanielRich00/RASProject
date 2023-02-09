@@ -1,8 +1,11 @@
 
 import React, { useState } from 'react';
+// this is importing the circle component, which is used for te indivudal acheivement nodes. 
 import Circle from './circle';
 import { Box } from '../components/Box';
+// this imports the box component
 import { firebase } from "../firebase"
+// thsi is for database information
 import { mergeSorter } from './mergeSort.js'
 import { hasher } from './hashingAlgorithm';
 import { NavigationContainer } from '@react-navigation/native';
@@ -51,37 +54,52 @@ const AchievementScreen = ({navigation}) => {
     LaunchApp.children.push(OneNote.value);
 
     
-
+    // this is the function for the notepad navigation
     function notePadNavigation(){
         navigation.navigate('NotePad')}
+    // the function the resources navigation
     function resourcesNavigation(){
         navigation.navigate('Resources')
     }
+    // the function for achievement navigation
     function achievmentNavigation(){
         navigation.navigate('AchievementScreen')
     }
+    // the function for main screen navigation
     function MainScreenNavigation(){
           navigation.navigate('MainScreen')}
+    // this is the fuction for homeScreen navigation    
     function HomeScreenNavigation(){
         navigation.navigate('HomeScreen')
     }
+    // function for the profile screen navigation
     function ProfileScreenNavigation(){
         navigation.navigate("ProfileScreen")
     }
-
+    
+    // this is a function for checking the nodes that are currently being tacked
+    // it uses pre-oder tree traversal to search each node, and indivdually checks if they
+    // have a status of beign tracked
     function checkTracking(){
+    // this is for each of the children of the root node, which is the launch app achievement
         LaunchApp.children.forEach(item => {
-            firebase.firestore().collection('usersInformation')
-              .doc(String(global.tempUsername))
-              .collection('achievements')
-              .doc(item)
-              .get()
+        // this accesses the collection of userinformation
+          USE userInformation SELECT * FROM achievments
+          DECLARE achievments
+          DECLARE @trackingValue INT;
+          DECLARE curos_achievment CURSOR FOR
+          SELECT tacing
+          FROM achievments
+          OPEN cursor-achievments;
+          FETCH NEXT FROM cursor_achievment INTO @trackingValue
               .then(doc => {
+              // this determines whether the data of the curent loop is being tracked, then it logs it.
                 if(doc.data().tracking){
                     console.log(item)
                 };
               })
               .catch(error => {
+              //else is logs an error.
                 console.log(error);
               });
           });
@@ -93,7 +111,7 @@ const AchievementScreen = ({navigation}) => {
     const achievement2 = firebase.firestore().collection('usersInformation').doc(String(global.tempUsername)).collection('achievements').doc('OneNote')
     const achievement3 = firebase.firestore().collection('usersInformation').doc(String(global.tempUsername)).collection('achievements').doc('StartStudy')
 
-
+// this is setting up the achievements.
     achievement1.get().then(doc => {
         if (doc.exists){
             setAch1(doc.data().achieved)
@@ -122,34 +140,42 @@ const AchievementScreen = ({navigation}) => {
         }
     })
 
-    
-
-
-  
-    
-
     return(
         <ImageBackground
     blurRadius={100}
+    // this is setting the background for the achievement screens.
     style={{flex:1, alignItems:"center"}}
     source={{uri: 'https://i.pinimg.com/originals/65/b6/be/65b6bed2caffc39538346d90f04d1270.jpg'}}>
     <View style={styles.headingContainer}>
+    // this is the title screen for the achievmetn screen
         <Text style={styles.FirstText}>Achievement Screen</Text>
+        // this is a button that executes the checkTracking function and displays to the user the current achievment being tracked.
         <Icon.Button color={'white'} name="info" size="40%" backgroundColor={null}  onPress={checkTracking} style={styles.infoButton}></Icon.Button>
     </View>
         <View style={styles.achievmentContainer}>
+        // this is each individual circle for the achievements, and displays
+        // to the user whether or not they are achieved
+        // if they are achieved then it will display the circle as green
+        // otehrwise it will display it as red
         <Circle color={ach1 ? 'green' : 'red'} text="LAUNCH APP" />
         </View>
+        // this is for the bottom two achievments, as it shows a tree-like structure.
         <View style={styles.secondLayer}>
+        // for the second achievement and the third
         <Circle color={ach2 ? 'green' : 'red'} text="ONE NOTE" />
         <Circle color={ach3 ? 'green' : 'red'}  text="START STUDY" />
         </View>
+        // this is a line for seperating the different things on the achievement screen
         <View style={styles.Line}></View>
 
         <View flexDirection='row' style={styles.container}>
+        // this is the button for home screen navigation
             <Icon.Button color={'white'} name="home" size="40%" backgroundColor={null}  onPress={HomeScreenNavigation} style={styles.NotePadSticker}></Icon.Button>
+        // this is the button for the notepad screen navigation
             <Icon.Button color={'white'} name="file" size="40%" backgroundColor={null}  onPress={notePadNavigation} style={styles.NotePadSticker}></Icon.Button>
-            <Icon.Button color={'white'} name="zap" size="40%" backgroundColor={null}  onPress={notePadNavigation} style={styles.NotePadSticker}></Icon.Button>
+            // this is the button for the achievement screen navigation
+            <Icon.Button color={'white'} name="zap" size="40%" backgroundColor={null}  onPress={AchivementNavigation} style={styles.NotePadSticker}></Icon.Button>
+            // this is the button for the profile screen navigation
             <Icon.Button color={'white'} name="user" size="40%" backgroundColor={null}  onPress={ProfileScreenNavigation} style={styles.NotePadSticker}></Icon.Button>
             <Icon.Button color={'white'} name="book-open" size="40%" backgroundColor={null}  onPress={notePadNavigation} style={styles.NotePadSticker}></Icon.Button>
         </View>
@@ -157,11 +183,12 @@ const AchievementScreen = ({navigation}) => {
     )}
 
 
-
+// this exports the achievment screen so it can be imported  into the stack.
 export default AchievementScreen
 
 const styles = StyleSheet.create({
 
+// this creates the title text style called firstText
     FirstText:{
       
       textAlign:'left',
@@ -169,30 +196,39 @@ const styles = StyleSheet.create({
       fontSize:"30%",
       fontWeight:'bold',
     },
+    // this creates the achievment Container styles
     achievmentContainer:{
+    // adds padding to the style
         paddingTop:'10%'
     },
+    // this creates the notepad style for the sticker
     NotePadSticker:{
+    // adds padding so it does not collide with the edges of the box.
         paddingLeft:'4%',
+        // aligns itself to the centre of the box.
         alignSelf:'center',
         
     },
+    // this is for the heading container.
     headingContainer:{
         flexDirection:'row',
         marginTop: '10%',
 
     },
+    //creates a style for the container itself
     container:{
         alignItems:'center',
         paddingLeft:"8%"
     },
+    // this creates a style fo rthe infobutton
     infoButton:{
+    // this adds a padding to the left, again for helping with collision
         paddingLeft:'5%',
         alignSelf:'center',
         marginTop: '-15%',
 
     },
-    
+    // this creates a style for the line that seperates the components of the screen
     Line:{
         backgroundColor:'white',
         alignSelf:'center',

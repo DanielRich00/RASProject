@@ -69,13 +69,19 @@ const SignIn = ({navigation}) => {
   
   
   
-
+// this function pulls the data from the database
   function pullData(){
+// this references the database using the firebase.firestore function, inside collection users
     const Ref = firebase.firestore().collection('users')
+// takes a snapshot of the information at the moment of collection
     .onSnapshot(
+// asks the snapshot for information
       querySnapshot => {
+// for each document within the snapshot in the collection "users"
         querySnapshot.forEach((doc) => {
+// it sets a const email password and useranme for the data, which can then be referenced as a function
           const { email, password, username } = doc.data()
+// this pushes the data collected from the database into the previously empty array.
           usersData.push({
             id: doc.id,
             username,
@@ -110,13 +116,16 @@ const SignIn = ({navigation}) => {
 
 
     
-  
+  //this is for the mainscreen navigation
   function MainScreenNavigation(){
         navigation.navigate('MainScreen')}
+  //this returns the information
   return(
+  //this is for the image background, mentioned previously is an image that provides a gradient.
     <ImageBackground
+  // this blurs the image
     blurRadius={100}
-
+// gives it flex properties
     style={{flex:1}}
     source={{uri: 'https://i.pinimg.com/originals/65/b6/be/65b6bed2caffc39538346d90f04d1270.jpg'}}>
     <Text style={styles.FirstText}>Welcome Back!</Text>

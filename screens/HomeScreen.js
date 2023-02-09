@@ -1,47 +1,69 @@
-
+// The same imports as previously
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, Text, View, Pressable, ImageBackground, TextInput, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useRoute } from '@react-navigation/native';
+// useState and useEffect, usestate explained previously, useState is for the timer which is on the main Screen.
 import { useState, useEffect } from 'react'
 import { firebase } from "../firebase"
 
 
 
+// creates a const HomeScreen, navigation is passed through, so it can switch screens.
 const HomeScreen = ({navigation}) => {
     const route = useRoute()
    
+// function to navigate to the notepad
     function notePadNavigation(){
         navigation.navigate('NotePad')}
+// function to navigate to resources
     function resourcesNavigation(){
         navigation.navigate('Resources')
     }
+// function to navigate to the acheivement screen
     function achievmentNavigation(){
         navigation.navigate('AchievementScreen')
     }
+// function to navigate the mainscreen screen
     function MainScreenNavigation(){
           navigation.navigate('MainScreen')}
+// function to navigate to the home screen
     function HomeScreenNavigation(){
         navigation.navigate('HomeScreen')
     }
+// function to navigate to the profile screen
     function profileNavigation(){
         navigation.navigate("ProfileScreen")
     }
-
+  
+// this is a usestate for time entries, has a default value of ""
     const [inputTime, setInputTime] = useState("");
+// the useState values for the seconds, is updated when the user inputs into the fields
+// these are the final values, that are altered on the click of a button.
     const [second, setSecond] = useState(0);
+// values for the hours, is updated when the user inputs into the fields
     const [hour, setHour] = useState(0);
+// values for the minutes, the default value is 0 for all of these.
     const [minute, setMinute] = useState(0);
   
+ // values that are altered when the fields are changed ( seconds )
     const [tempSecond, setTempSecond] = useState(0);
+ // values that are altered when the fields are changed ( Hour )
     const [tempHour, setTempHour] = useState(0);
+  // values that are altered when the fields are changed ( Minute )
     const [tempMinute, setTempMinute] = useState(0);
+ // this useState determines whever the timer is running or not, false, then the timer is off
     const [startTimer, setStartTimer] = useState(false);
+ // this is for a random value
     const [random, setRandom] = useState(50);
+ // similarly this is for the email errors.
     const [EmailError, SetEmailError] = useState(false);
 
+ 
+// this function takes the time entered by the users in the fields, and sets it so it displays it on screen
+//finalising the details, and ensuring that they are valid. 
     function setTime() {
         if (startTimer === false && checkTimeValues() === true) {
           SetEmailError(EmailError=>false)

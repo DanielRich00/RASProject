@@ -2,15 +2,28 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { StyleSheet,  Pressable, ImageBackground, TextInput, Linking} from 'react-native';
 
-
+//this is a const for dispaly resources, that passes resouces and subjects, and sorts
+// out all of the data into their respective resources, and subjects
+// and only displays the dates, and links of the ones that the user needs.
 const DisplayResources = ({ resources, subject }) => {
+// this is what is returned to the program when ti is called.
   return (
     <View>
+    // this uses the suject that is entered by the passed through when the 
+    // function is  called
       {subject && (
+      // it has the style container
         <View style={styles.Container}>
+        // this uses the resources and filters it by subject
+        // and maps it by dates, showing the dates, and the link
           {resources[subject].dates.map((date, index) => (
+          // uses the style of dateText
             <Text style={styles.DateText} key={date}>
               {date}:
+              // prints the date
+              // and uses the Linking.openURL, so it provides the user with a link that 
+              // they are actually able to open.
+              // has the text paper link
               <Pressable onPress={()=>{Linking.openURL(resources[subject].websites[index])}}><Text style={styles.Link}>Paper Link</Text></Pressable>
             </Text>
           ))}
@@ -23,11 +36,14 @@ const DisplayResources = ({ resources, subject }) => {
 
 
 const styles = StyleSheet.create({
-
+//creates the style DateText
     DateText:{
+    // gives the text the color white
       color:'white',
+      // gives it a margin top of 20 percent, meaning its shifted down
       marginTop:'20%',
       fontSize:'30',
+      // gives it a bold font
       fontWeight:'bold'
     },
     Container:{
